@@ -40,7 +40,7 @@ if [ $? -ne 0 ]; then
     VALIDATE $? "Roboshop User Created"
 else
     echo -e "roboshop user already exists ...$Y SKIPPING $N"
-    ext 3;
+    exit 3;
 fi
 
 mkdir -p /app 
