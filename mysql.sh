@@ -41,9 +41,6 @@ VALIDATE $? "Enabling MySQL Service"
 systemctl start mysqld &>>$LOGS_FILE
 VALIDATE $? "Starting MySQL Service"
 
-mysql_secure_installation --set-root-pass RoboShop@1
-VALIDATE $? "Setting MySQL Root Password"
-
 #Below code will be useful for idempotent nature
 mysql -h $DOMAIN_NAME -uroot -p${mysql_root_password} -e 'show databases;' &>>$LOGS_FILE
 if [ $? -ne 0 ]
