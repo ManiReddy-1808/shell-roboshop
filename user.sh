@@ -51,7 +51,7 @@ fi
 
 mkdir -p /app 
 
-curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>>$LOGS_FILE
+curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip &>>$LOGS_FILE
 VALIDATE $? "Downloading Catalogue App"
 
 cd /app 
@@ -60,39 +60,20 @@ VALIDATE $? "Changing Directory to /app"
 rm -rf /app/* &>>$LOGS_FILE
 VALIDATE $? "Removing Old App Content"
 
-unzip /tmp/catalogue.zip &>>$LOGS_FILE
-VALIDATE $? "Extracting Catalogue App Code"
+unzip /tmp/user.zip &>>$LOGS_FILE
+VALIDATE $? "Extracting User App Code"
 
 npm install &>>$LOGS_FILE
 VALIDATE $? "Installing NodeJS Dependencies"
 
-#BCurrently we are in app directory, so moving to script dir
-cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service
-VALIDATE $? "Copying Catalogue SystemD Service File"
+cp $SCRIPT_DIR/user.service /etc/systemd/system/user.service
+VALIDATE $? "Copying service file"
 
 systemctl daemon-reload &>>$LOGS_FILE
 VALIDATE $? "Reloading SystemD"
 
 systemctl enable catalogue &>>$LOGS_FILE
-VALIDATE $? "Enabling Catalogue Service"
+VALIDATE $? "Enabling User Service"
 
 systemctl start catalogue &>>$LOGS_FILE
-VALIDATE $? "Starting Catalogue Service"
-
-cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo &>>$LOGS_FILE
-VALIDATE $? "Copying mongo.repo file"
-
-dnf install mongodb-mongosh -y &>>$LOGS_FILE
-VALIDATE $? "Installing MONGOSH Client"
-
-INDEX=$(mongosh --host $MONGODB_HOST --quiet  --eval 'db.getMongo().getDBNames().indexOf("catalogue")')
-
-if [ $INDEX -le 0 ]; then
-    mongosh --host $MONGODB_HOST </app/db/master-data.js &>>$LOGS_FILE
-    VALIDATE $? "Loaded Catalogue Schema to MONGODB"
-else
-    echo -e "Catalogue DB already exists ... $Y SKIPPING $N"
-fi
-
-systemctl restart catalogue &>>$LOGS_FILE
-VALIDATE $? "Restarting catalogue Service"
+VALIDATE $? "Starting User Service"
