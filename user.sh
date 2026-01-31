@@ -72,8 +72,8 @@ VALIDATE $? "Copying service file"
 systemctl daemon-reload &>>$LOGS_FILE
 VALIDATE $? "Reloading SystemD"
 
-systemctl enable catalogue &>>$LOGS_FILE
+systemctl enable user &>>$LOGS_FILE
 VALIDATE $? "Enabling User Service"
 
-systemctl start catalogue &>>$LOGS_FILE
+systemctl start user &>>$LOGS_FILE
 VALIDATE $? "Starting User Service"
