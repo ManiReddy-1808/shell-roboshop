@@ -57,11 +57,11 @@ VALIDATE $? "Downloading User App"
 cd /app 
 VALIDATE $? "Changing Directory to /app"
 
-rm -rf /app/* &>>$LOGS_FILE
-VALIDATE $? "Removing Old App Content"
-
 unzip /tmp/user.zip &>>$LOGS_FILE
 VALIDATE $? "Extracting User App Code"
+
+cd /app 
+VALIDATE $? "Changing Directory to /app"
 
 npm install &>>$LOGS_FILE
 VALIDATE $? "Installing NodeJS Dependencies"
