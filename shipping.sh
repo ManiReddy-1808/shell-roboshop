@@ -51,6 +51,9 @@ VALIDATE $? "Downloading Shipping App"
 cd /app 
 VALIDATE $? "Changing Directory to /app"
 
+rm -rf /app/* &>>$LOGS_FILE
+VALIDATE $? "Removing Old App Content"
+
 unzip /tmp/shipping.zip &>>$LOGS_FILE
 VALIDATE $? "Extracting Shippping App Code"
 
