@@ -87,3 +87,4 @@ VALIDATE $? "Installing MONGOSH Client"
 
 mongosh --host $MONGODB_HOST </app/db/master-data.js &>>$LOGS_FILE
 VALIDATE $? "Loading Catalogue Schema to MONGODB"
+
