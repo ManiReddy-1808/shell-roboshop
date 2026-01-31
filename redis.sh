@@ -27,7 +27,7 @@ VALIDATE(){
 }
 
 dnf list installed redis &>>$LOGS_FILE
-if [ $? -ne 0 ]
+if [ $? -ne 0 ];then
     dnf module disable redis -y &>>$LOGS_FILE
     VALIDATE $? "Disabling Redis Module"
 
