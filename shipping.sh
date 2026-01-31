@@ -5,6 +5,7 @@ LOGS_FOLDER="/var/log/shell-roboshop"
 LOGS_FILE="$LOGS_FOLDER/$0.log"
 SCRIPT_DIR=$PWD
 MYSQL_HOST="mysql.dawsmani.site"
+mysql_root_password="RoboShop@1"
 
 R="\e[31m"
 G="\e[32m"
@@ -86,14 +87,19 @@ else
     VALIDATE $? "Installing MySQL Client"
 fi
 
-mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/schema.sql &>>$LOGS_FILE
-VALIDATE $? "Creating Shipping Database Schema and loading data"
+mysql -h $MYSQL_HOST -uroot -p${mysql_root_password} -e 'show databases;' &>>$LOGS_FILE
+if [ $? -ne 0 ]; then
+    mysql -h $MYSQL_HOST -uroot -p${mysql_root_password} < /app/db/schema.sql &>>$LOGS_FILE
+    VALIDATE $? "Creating Shipping Database Schema and loading data"
 
-mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/app-user.sql &>>$LOGS_FILE
-VALIDATE $? "Creating Shipping App User & loading data"
+    mysql -h $MYSQL_HOST -uroot -p${mysql_root_password} < /app/db/app-user.sql &>>$LOGS_FILE
+    VALIDATE $? "Creating Shipping App User & loading data"
 
-mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/master-data.sql &>>$LOGS_FILE
-VALIDATE $? "Creating Shipping Master Data & loading data"
+    mysql -h $MYSQL_HOST -uroot -p${mysql_root_password} < /app/db/master-data.sql &>>$LOGS_FILE
+    VALIDATE $? "Creating Shipping Master Data & loading data"
+else
+    echo -e "Shipping Database schema is already created ...$Y SKIPPING $N"
+fi
 
 systemctl restart shipping &>>$LOGS_FILE
 VALIDATE $? "Restarting Shipping Service"
