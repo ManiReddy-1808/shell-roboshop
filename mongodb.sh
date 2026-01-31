@@ -47,10 +47,10 @@ INDEX=$(mongosh --host $MONGODB_HOST --quiet  --eval 'db.getMongo().getDBNames()
 
 if [ $INDEX -le 0 ]; then
     mongosh --host $MONGODB_HOST </app/db/master-data.js &>>$LOGS_FILE
-    VALIDATE $? "Loading Catalogue Schema to MONGODB"
+    VALIDATE $? "Loaded Catalogue Schema to MONGODB"
 else
     echo -e "Catalogue DB already exists ... $Y SKIPPING $N"
 fi
 
-systemctl restart catalogue &>>$LOGS_FILE
+systemctl restart catalogue
 VALIDATE $? "Restarting catalogue"
