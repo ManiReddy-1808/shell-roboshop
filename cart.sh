@@ -5,7 +5,6 @@ LOGS_FOLDER="/var/log/shell-roboshop"
 LOGS_FILE="$LOGS_FOLDER/$0.log"
 SCRIPT_DIR=$PWD  # or $(pwd)
 
-
 R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
@@ -51,8 +50,8 @@ fi
 
 mkdir -p /app 
 
-curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip &>>$LOGS_FILE
-VALIDATE $? "Downloading User App"
+curl -L -o /tmp/cart.zip https://roboshop-artifacts.s3.amazonaws.com/cart-v3.zip &>>$LOGS_FILE
+VALIDATE $? "Downloading Cart App"
 
 cd /app 
 VALIDATE $? "Changing Directory to /app"
@@ -60,20 +59,20 @@ VALIDATE $? "Changing Directory to /app"
 rm -rf /app/* &>>$LOGS_FILE
 VALIDATE $? "Removing Old App Content"
 
-unzip /tmp/user.zip &>>$LOGS_FILE
-VALIDATE $? "Extracting User App Code"
+unzip /tmp/cart.zip &>>$LOGS_FILE
+VALIDATE $? "Extracting Cart App Code"
 
 npm install &>>$LOGS_FILE
 VALIDATE $? "Installing NodeJS Dependencies"
 
-cp $SCRIPT_DIR/user.service /etc/systemd/system/user.service
+cp $SCRIPT_DIR/cart.service /etc/systemd/system/cart.service
 VALIDATE $? "Copying service file"
 
 systemctl daemon-reload &>>$LOGS_FILE
 VALIDATE $? "Reloading SystemD"
 
-systemctl enable user &>>$LOGS_FILE
-VALIDATE $? "Enabling User Service"
+systemctl enable cart &>>$LOGS_FILE
+VALIDATE $? "Enabling Cart Service"
 
-systemctl start user &>>$LOGS_FILE
-VALIDATE $? "Starting User Service"
+systemctl start cart &>>$LOGS_FILE
+VALIDATE $? "Starting Cart Service"
