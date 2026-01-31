@@ -45,10 +45,11 @@ mysql_secure_installation --set-root-pass RoboShop@1
 VALIDATE $? "Setting MySQL Root Password"
 
 #Below code will be useful for idempotent nature
-mysql -h $DOMAIN_NAME -uroot -p${mysql_root_password} -e 'show databases;' &>>$LOGFILE
+mysql -h $DOMAIN_NAME -uroot -p${mysql_root_password} -e 'show databases;' &>>$LOGS_FILE
 if [ $? -ne 0 ]
 then
-    mysql_secure_installation --set-root-pass ${mysql_root_password} &>>$LOGFILE
+    mysql_secure_installation --set-root-pass ${mysql_root_password} &>>$LOGS_FILE
+    VALIDATE $? "Setting MySQL Root Password"
 else
     echo -e "MySQL Root password is already setup...$Y SKIPPING $N"
 fi
