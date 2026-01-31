@@ -85,6 +85,14 @@ VALIDATE $? "Copying mongo.repo file"
 dnf install mongodb-mongosh -y &>>$LOGS_FILE
 VALIDATE $? "Installing MONGOSH Client"
 
-mongosh --host $MONGODB_HOST </app/db/master-data.js &>>$LOGS_FILE
-VALIDATE $? "Loading Catalogue Schema to MONGODB"
+INDEX=$(mongosh --host $MONGODB_HOST --quiet  --eval 'db.getMongo().getDBNames().indexOf("catalogue")')
 
+if [ $INDEX -le 0 ]; then
+    mongosh --host $MONGODB_HOST </app/db/master-data.js &>>$LOGS_FILE
+    VALIDATE $? "Loaded Catalogue Schema to MONGODB"
+else
+    echo -e "Catalogue DB already exists ... $Y SKIPPING $N"
+fi
+
+systemctl restart catalogue &>>$LOGS_FILE
+VALIDATE $? "Restarting catalogue Service"
