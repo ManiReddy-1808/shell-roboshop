@@ -4,7 +4,7 @@ USER_ID=$(id -u)
 LOGS_FOLDER="/var/log/shell-roboshop"
 LOGS_FILE="$LOGS_FOLDER/$0.log"
 SCRIPT_DIR=$PWD
-MONGODB_HOST="mysql.dawsmani.site"
+MYSQL_HOST="mysql.dawsmani.site"
 
 R="\e[31m"
 G="\e[32m"
@@ -83,13 +83,13 @@ else
     VALIDATE $? "Installing MySQL Client"
 fi
 
-mysql -h $MONGODB_HOST -uroot -pRoboShop@1 < /app/db/schema.sql &>>$LOGS_FILE
+mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/schema.sql &>>$LOGS_FILE
 VALIDATE $? "Creating Shipping Database Schema and loading data"
 
-mysql -h $MONGODB_HOST -uroot -pRoboShop@1 < /app/db/app-user.sql &>>$LOGS_FILE
+mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/app-user.sql &>>$LOGS_FILE
 VALIDATE $? "Creating Shipping App User & loading data"
 
-mysql -h $MONGODB_HOST -uroot -pRoboShop@1 < /app/db/master-data.sql &>>$LOGS_FILE
+mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/master-data.sql &>>$LOGS_FILE
 VALIDATE $? "Creating Shipping Master Data & loading data"
 
 systemctl restart shipping &>>$LOGS_FILE
