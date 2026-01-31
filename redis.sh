@@ -27,7 +27,9 @@ VALIDATE(){
 }
 
 dnf list installed redis &>>$LOGS_FILE
-if [ $? -ne 0 ];then
+if [ $? -eq 0 ];then
+    echo -e "Redis already installed... $Y SKIPPING $N"
+else
     dnf module disable redis -y &>>$LOGS_FILE
     VALIDATE $? "Disabling Redis Module"
 
@@ -36,11 +38,9 @@ if [ $? -ne 0 ];then
 
     dnf install redis -y &>>$LOGS_FILE
     VALIDATE $? "Installing Redis Server"
-else
-    echo -e "Redis already installed... $Y SKIPPING $N"
 fi
 
-sed -i 's/127.0.0.1/0.0.0.0' /etc/redis/redis.conf
+sed -i 's/127.0.0.1/0.0.0.0/' /etc/redis/redis.conf
 VALIDATE $? "Update listen address"
 
 sed -i 's/protected-mode yes/protected-mode no/' /etc/redis/redis.conf
