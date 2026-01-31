@@ -3,6 +3,8 @@
 USER_ID=$(id -u)
 LOGS_FOLDER="/var/log/shell-roboshop"
 LOGS_FILE="$LOGS_FOLDER/$0.log"
+mysql_root_password="RoboShop@1"
+DOMAIN_NAME="mysql.dawsmani.site"
 
 R="\e[31m"
 G="\e[32m"
@@ -25,7 +27,7 @@ VALIDATE(){
     fi
 }
 
-dnf list installed mongodb-server
+dnf list installed mysql-server &>>$LOGS_FILE
 if [ $? -eq 0 ]; then
     echo "" -e "MySQL Server already installed ... $Y SKIPPING $N"
 else    
@@ -41,3 +43,12 @@ VALIDATE $? "Starting MySQL Service"
 
 mysql_secure_installation --set-root-pass RoboShop@1
 VALIDATE $? "Setting MySQL Root Password"
+
+#Below code will be useful for idempotent nature
+mysql -h $DOMAIN_NAME -uroot -p${mysql_root_password} -e 'show databases;' &>>$LOGFILE
+if [ $? -ne 0 ]
+then
+    mysql_secure_installation --set-root-pass ${mysql_root_password} &>>$LOGFILE
+else
+    echo -e "MySQL Root password is already setup...$Y SKIPPING $N"
+fi
