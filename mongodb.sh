@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#!/bin/bash
-
 USER_ID=$(id -u)
 LOGS_FOLDER="/var/log/shell-roboshop"
 LOGS_FILE="$LOGS_FOLDER/$0.log"
@@ -18,7 +16,7 @@ fi
 
 mkdir -p $LOGS_FOLDER
 
-# tee command is used to write the output to a file as well as to the console
+# tee command is used to write the output to log file as well as to the console
 VALIDATE(){  
     if [ $1 -eq 0 ]; then
         echo -e "$2 ... $R SUCCESS $N" | tee -a $LOGS_FILE
