@@ -29,7 +29,7 @@ VALIDATE(){
 
 dnf list installed mysql-server &>>$LOGS_FILE
 if [ $? -eq 0 ]; then
-    echo "" -e "MySQL Server already installed ... $Y SKIPPING $N"
+    echo -e "MySQL Server already installed ... $Y SKIPPING $N"
 else    
     dnf install mysql-server -y &>>$LOGS_FILE
     VALIDATE $? "Installing MySQL Server"
