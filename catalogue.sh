@@ -64,7 +64,7 @@ VALIDATE $? "Removing Old App Content"
 unzip /tmp/catalogue.zip &>>$LOGS_FILE
 VALIDATE $? "Extracting Catalogue App"
 
-npm install 
+npm install &>>$LOGS_FILE
 VALIDATE $? "Installing NodeJS Dependencies"
 
 #BCurrently we are in app directory, so moving to script dir
