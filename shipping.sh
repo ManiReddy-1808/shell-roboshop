@@ -4,7 +4,7 @@ USER_ID=$(id -u)
 LOGS_FOLDER="/var/log/shell-roboshop"
 LOGS_FILE="$LOGS_FOLDER/$0.log"
 SCRIPT_DIR=$PWD
-MONGODB_HOST="mongodb.dawsmani.site"
+MONGODB_HOST="mysql.dawsmani.site"
 
 R="\e[31m"
 G="\e[32m"
@@ -27,7 +27,7 @@ VALIDATE(){
     fi
 }
 
-dnf list installed maven
+dnf list installed maven &>>$LOGS_FILE
 if [ $? -eq 0 ]; then
     echo -e "maven already installed ... $Y SKIPPING $N"
 else
