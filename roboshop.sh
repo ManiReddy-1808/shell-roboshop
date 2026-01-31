@@ -3,7 +3,7 @@
 SG_ID="sg-04303efbdaed5c6f9"
 AMI_ID="ami-0220d79f3f480ecf5"
 ZONE_ID="Z02030392LMN8KQVWR9UZ"
-RECORD_NAME="dawsmani.site"
+DOMAIN_NAME="dawsmani.site"
 
 for instance in $@
 do
