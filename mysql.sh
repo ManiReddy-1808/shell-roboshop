@@ -25,8 +25,13 @@ VALIDATE(){
     fi
 }
 
-dnf install mysql-server -y &>>$LOGS_FILE
-VALIDATE $? "Installing MySQL Server"
+dnf list installed mongodb-server
+if [ $? -eq 0 ]; then
+    echo "" -e "MySQL Server already installed ... $Y SKIPPING $N"
+else    
+    dnf install mysql-server -y &>>$LOGS_FILE
+    VALIDATE $? "Installing MySQL Server"
+fi
 
 systemctl enable mysqld &>>$LOGS_FILE
 VALIDATE $? "Enabling MySQL Service"
@@ -35,3 +40,4 @@ systemctl start mysqld &>>$LOGS_FILE
 VALIDATE $? "Starting MySQL Service"
 
 mysql_secure_installation --set-root-pass RoboShop@1
+VALIDATE $? "Setting MySQL Root Password"
