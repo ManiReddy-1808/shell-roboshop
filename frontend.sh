@@ -34,7 +34,7 @@ if [ $? -ne 0 ]; then
     dnf module enable nginx:1.24 -y &>>$LOGS_FILE
     VALIDATE $? "Enabling NGINX 1.24 Module"
 
-    dnf install nginx -y
+    dnf install nginx -y &>>$LOGS_FILE
     VALIDATE $? "Installing NGINX..."
 else
     echo -e "NginX already installed.... $Y SKYPPING $N"

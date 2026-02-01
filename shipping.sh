@@ -87,7 +87,7 @@ else
     VALIDATE $? "Installing MySQL Client"
 fi
 
-mysql -h $MYSQL_HOST -uroot -p${mysql_root_password} -e 'show databases;' &>>$LOGS_FILE
+mysql -h $MYSQL_HOST -uroot -p${mysql_root_password} -e 'use cities' &>>$LOGS_FILE
 if [ $? -ne 0 ]; then
     mysql -h $MYSQL_HOST -uroot -p${mysql_root_password} < /app/db/schema.sql &>>$LOGS_FILE
     VALIDATE $? "Creating Shipping Database Schema and loading data"
