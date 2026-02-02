@@ -2,7 +2,7 @@
 
 SG_ID="sg-04303efbdaed5c6f9"
 AMI_ID="ami-0220d79f3f480ecf5"
-ZONE_ID="Z02030392LMN8KQVWR9UZ"
+ZONE_ID="Z02030392LMN8KQVWR9UZ" #Route53 Hosted Zone ID
 DOMAIN_NAME="dawsmani.site"
 
 for instance in $@
@@ -37,7 +37,7 @@ do
 
     echo "Creating Route53 Record for $instance with IP $IP"
 
-    # UPSERT: If record available just update, if not available just create it
+    # UPSERT:: If record available just update, if not available just create it
     aws route53 change-resource-record-sets \
     --hosted-zone-id $ZONE_ID \
     --change-batch '
