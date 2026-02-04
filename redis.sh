@@ -46,6 +46,11 @@ VALIDATE $? "Update listen address"
 sed -i 's/protected-mode yes/protected-mode no/' /etc/redis/redis.conf
 VALIDATE $? "Disabling protected mode"
 
+# OR Instead of above 2 lines
+
+#sed -i -e 's/127.0.0.1/0.0.0.0/g' -e '/protected-mode/ c protected-mode no' /etc/redis/redis.conf
+#VALIDATE $? "Allowing remote connections"
+
 systemctl enable redis &>>$LOGS_FILE
 VALIDATE $? "Enabling Redis Service"
 

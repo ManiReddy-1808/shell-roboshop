@@ -66,7 +66,7 @@ VALIDATE $? "Extracting Catalogue App Code"
 npm install &>>$LOGS_FILE
 VALIDATE $? "Installing NodeJS Dependencies"
 
-#BCurrently we are in app directory, so moving to script dir
+#Currently we are in app directory, so moving to script dir
 cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service
 VALIDATE $? "Copying Catalogue SystemD Service File"
 
