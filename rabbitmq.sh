@@ -46,7 +46,6 @@ VALIDATE $? "Starting RabbitMQ Server"
 rabbitmqctl list_users | grep -i "roboshop" &>>$LOGS_FILE
 if [ $? -eq 0 ]; then
     echo -e "RabbitMQ Application User already exists ... $Y SKIPPING $N"
-    exit 0;
 else
     rabbitmqctl add_user roboshop roboshop123 &>>$LOGS_FILE
     VALIDATE $? "Adding RabbitMQ Application User"
